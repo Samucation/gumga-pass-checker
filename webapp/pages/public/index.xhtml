@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	</f:facet>
+	<title>Gumga Password Checker</title>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/icones/favicon.ico" />
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:remoteCommand name="remoteCommandVelocimeterAnimation" 
+                     oncomplete="countPercentNumber();" autoRun="true" />
+		<p:panel>
+			<p:panelGrid columns="1" styleClass="ui-panelgrid-blank pnl-grid-principal-validador " 
+			             style="margin-left: -10px!important;">
+				<p:outputLabel value="AVALIADOR DE SEGURANÇA DE SENHA"
+					           styleClass="lbl-descricao-validador" />
+				<p:panel styleClass="pnl-centro-validador" >
+					<p:panelGrid id="pnlGridPrincipal" columns="1" >
+					    <p:panelGrid id="pnlGridCentro" columns="1" styleClass="pnl-grid-centro-externo" >
+							<p:inputText id="inputPassword" value="#{validadorSenhaBean.password}" size="23" styleClass="input-text-senha" placeholder="Digite a senha" >
+								<p:ajax event="keyup"
+									listener="#{validadorSenhaBean.handleKeyEvent}" 
+									process="@this"
+									disabled="false" update="score, complexityPanel pnlGridCentroInterno" 
+									oncomplete="remoteCommandVelocimeterAnimation();" />
+							</p:inputText>
+							<h:panelGrid id="pnlGridCentroInterno" columns="2" 
+							             styleClass="pnl-grid-centro" >
+							    <h:column >
+								    <p:panel styleClass="pnl-porcentagem-validador" >
+										<p:outputLabel id="score" value="#{validadorSenhaBean.score}" 
+												       styleClass="lbl-porcentagem-validador count" />
+									</p:panel>
+								</h:column>
+								<h:column >
+									<p:panel id="complexityPanel" 
+									         styleClass="pnl-validacao-validador"
+									         style="background: #{validadorSenhaBean.cssComplexity} !important;" >
+										<p:outputLabel id="complexity" value="#{validadorSenhaBean.complexity}" 
+										               styleClass="lbl-status-validacao-validador" />
+									</p:panel>
+								</h:column>
+							</h:panelGrid>      
+						</p:panelGrid>
+					</p:panelGrid>
+				</p:panel>
+			</p:panelGrid>
+		</p:panel>
+	</h:form>
+	<p:spacer />
+	<br />
+	
+	<h:outputScript library="js" name="scripts.js" />
+	<h:outputScript library="js" name="locale.js" />
+	<h:outputStylesheet name="nanoscroller.css" library="css" />
+	<h:outputStylesheet name="animate.css"      library="css" />
+	<h:outputStylesheet name="ripple.css"       library="css" />
+	<h:outputStylesheet name="layout.css"       library="css" />
+	<h:outputStylesheet name="validator.css"    library="css" />
+	<h:outputStylesheet name="hover.css"        library="css" />
+</h:body>
+</html>
